@@ -70,6 +70,10 @@ class TYPO3SniffPool_Sniffs_Commenting_ClassDocCommentSniff implements PHP_CodeS
         $this->currentFile = $phpcsFile;
         $tokens = $phpcsFile->getTokens();
         $type = strtolower($tokens[$stackPtr]['content']);
+        // Ignores processing if :: is found before class notation
+        if ($type === 'class' && $phpcsFile->findPrevious(T_PAAMAYIM_NEKUDOTAYIM, $stackPtr) > 0) {
+            return;
+        }
         $errorData = array($type);
         $find = array(T_ABSTRACT, T_WHITESPACE, T_FINAL,);
         // Extract the class comment docblock.
