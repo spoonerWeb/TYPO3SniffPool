@@ -69,7 +69,14 @@ class TYPO3SniffPool_Sniffs_Files_FilenameSniff implements PHP_CodeSniffer_Sniff
             return;
         }
 
-        if (strcmp($fileName, $className)) {
+        // Use last part of class name for check if it's like Tx_Extension_XXX
+        if (strpos($className, '_') > 0) {
+            $classNameParts = explode('_', $className);
+            $classNameForFileNameCheck = array_pop($classNameParts);
+        } else {
+            $classNameForFileNameCheck = $className;
+        }
+        if (strcmp($fileName, $classNameForFileNameCheck)) {
             $error = 'The classname is not equal to the filename; found "%s" as classname and "%s" for filename.';
             $data = array(
                         $className,
