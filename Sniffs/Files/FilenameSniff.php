@@ -79,7 +79,7 @@ class TYPO3SniffPool_Sniffs_Files_FilenameSniff implements PHP_CodeSniffer_Sniff
         if (strcmp($fileName, $classNameForFileNameCheck)) {
             $error = 'The classname is not equal to the filename; found "%s" as classname and "%s" for filename.';
             $data = array(
-                        $className,
+                        $classNameForFileNameCheck,
                         $fileName . '.php'
                     );
             $phpcsFile->addError($error, $stackPtr, 'ClassnameNotEqualToFilename', $data);
